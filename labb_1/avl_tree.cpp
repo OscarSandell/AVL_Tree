@@ -413,27 +413,10 @@ void AVL_Tree_Node<Comparable>::remove(const Comparable &x, Node_Pointer &t)
     if (x < t->element)
     {
         remove(x, t->left);
-        /*
-        if (node_height(t->right) - node_height(t->left) > 1)
-            if (node_height(t->right->right) > node_height(t->right->left))
-                single_rotate_with_right_child(t);
-            else
-                double_rotate_with_right_child(t);
-        else
-            calculate_height(t);*/
     }
     else if (t->element < x)
     {
         remove(x, t->right);
-        /*
-        if (node_height(t->left) - node_height(t->right) > 1)
-            if (node_height(t->left->left) > node_height(t->left->right))
-                single_rotate_with_left_child(t);
-            else
-                double_rotate_with_left_child(t);
-        else
-            calculate_height(t);
-            */
     }
     else
     {
@@ -461,48 +444,36 @@ void AVL_Tree_Node<Comparable>::remove(const Comparable &x, Node_Pointer &t)
             return;
         }
     }
-    //std::cout << "Hej 1";
     int left_height{node_height(t->left)};
     int right_height{node_height(t->right)};
-    //std::cout << "Hej";
     int difference{left_height - right_height};
     if (std::abs(difference) > 1)
-    //långa är längre -> enkelrotation
     {
         if (difference < 0)
         {
-            //std::cout << " < 0" << std::endl;
-            if (node_height(t->right->right) > node_height(t->right->left))
+            if (node_height(t->right->right) >= node_height(t->right->left))
             {
-                //std::cout << "1" << std::endl;
                 single_rotate_with_right_child(t);
             }
             else
             {
-              //  std::cout << "2" << std::endl;
                 double_rotate_with_right_child(t);
             }
         }
-        if (difference > 0)
+        else if (difference > 0)
         {
-            //std::cout << " > 0" << std::endl;
-            if (node_height(t->left->left) > node_height(t->left->right))
+            if (node_height(t->left->left) >= node_height(t->left->right))
             {
-              //  std::cout << "3" << std::endl;
                 single_rotate_with_left_child(t);
             }
             else
             {
-            //    std::cout << "4" << std::endl;
                 double_rotate_with_left_child(t);
-          //      std::cout << "Efter dubbelrotation" << std::endl;
             }
         }
     }
     else
     {
-
-        //std::cout << "5" << std::endl;
         calculate_height(t);
     }
 }
